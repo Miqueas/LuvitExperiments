@@ -7,6 +7,6 @@ local function listener(req, res)
 end
 
 local server = http.createServer(listener)
-server:listen(8080, function()
+server:listen(process.env.PORT or 8080, function()
   print("Listening at: localhost:8080")
 end)
