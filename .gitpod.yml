@@ -3,14 +3,17 @@ image: gitpod/workspace-base
 tasks:
   - name: Setup workspace
     command: |
+      sudo apt update; sudo apt upgrade -y
+      sudo apt install cmake -y
+
       cd $HOME
 
-      git clone --recursive https://github.com/luvit/lit LitSrc
-      git clone --recursive https://github.com/luvit/luvi LuviSrc
+      git clone -q --recursive https://github.com/luvit/lit LitSrc
+      git clone -q --recursive https://github.com/luvit/luvi LuviSrc
 
       cd LuviSrc
-      make regular
-      make
+      make -s regular
+      make -s
       mv build/luvi ..
       cd ..
       rm -rf LuviSrc
