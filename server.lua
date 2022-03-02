@@ -1,12 +1,18 @@
 local http = require("http")
 
-local function listener(req, res)
-  local path = req.url
-  print((" -> %s '%s'"):format(req.method, path))
-  res:finish(("You're on '%s'"):format(path))
-end
+http.createServer(function (req, res)
+  local content = {
+    body = [[<h1>Error 404: Not Found!</h1>]],
+    type = "text/html"
+  }
 
-local server = http.createServer(listener)
-server:listen(process.env.PORT or 8080, function()
-  print("Listening at: localhost:8080")
-end)
+  if req.url == "/" then
+    content.body = [[<h1>Hello, world!</h1>]]
+  end
+
+  res:setHeader("Content-Type", content.type)
+  res:setHeader("Content-Length", #content.body)
+  res:finish(content.body)
+end):listen(8080)
+
+print("Server listening in http://localhost:8080")
