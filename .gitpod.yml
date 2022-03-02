@@ -1,0 +1,29 @@
+image: gitpod/workspace-base
+
+tasks:
+  - name: Setup workspace
+    command: |
+      cd $HOME
+
+      git clone --recursive https://github.com/luvit/lit LitSrc
+      git clone --recursive https://github.com/luvit/luvi LuviSrc
+
+      cd LuviSrc
+      make regular
+      make
+      mv build/luvi ..
+      cd ..
+      rm -rf LuviSrc
+
+      cd LitSrc
+      ../luvi . -- make .
+      mv lit ..
+      cd ..
+      rm -rf LitSrc
+
+      ./lit make github://luvit/luvit
+      sudo mv lit luvi luvit /usr/local/bin
+
+vscode:
+  extensions:
+    - sumneko.lua
